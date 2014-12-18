@@ -21,7 +21,7 @@ int main() {
 	cout << "metodoEuler: " << metodoEuler(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_central, 0, 30 * 24 * 60, Cp0, h)<< endl;
 	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-
+	//coco
 	system("Pause");
 }
 
