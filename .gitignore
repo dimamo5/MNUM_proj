@@ -5,6 +5,9 @@
 *.suo
 *.user
 *.sln.docstates
+*.cproject
+*.project
+*.prefs
 
 # Build results
 

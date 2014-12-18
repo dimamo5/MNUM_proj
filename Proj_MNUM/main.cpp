@@ -25,7 +25,7 @@ int main() {
 	system("Pause");
 }
 
-double f_central(double t, double cp){
+double f_comp_central(double t, double cp){
 
 	return (Dose(t) - Ke*cp) / Vap;
 }
@@ -37,6 +37,7 @@ D(t) {
 	 { 400/((rand % 3 + 4)*60) ,  60 < t << 360  -> 6h -> 360 minutos : tempo maximo possivel
 	 t = minutos
 */
+
 double Dose(unsigned int t) {
 
 	t = t % (60 * 24); //adaptacao para verificacao diaria
