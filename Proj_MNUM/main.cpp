@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 #include "constantes.h"
-
+ 
 using namespace std;
 
 double Dose(unsigned int t);
