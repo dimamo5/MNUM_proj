@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cstdlib>
 #include "constantes.h"
- 
+
 using namespace std;
 
 double Dose(unsigned int t);
@@ -69,13 +69,26 @@ double metodoEuler(double (*f)(double x, double y), double xi, double xf,
 	return y;
 }
 
-/*
- double metodoEuler_melhorado(double(*f)(double x, double y), double xi, double
- xf, double y, double h)
- {
+double metodoEuler_melhorado(double (*f)(double x, double y), double xi,
+		double xf, double yi, double h) {
 
- return f(xi, y);
- }*/
+	/*unsigned n = (xf - xi) / h;
+	 double k1;
+	 double h2 = 0.5 * h;
+
+	 for (size_t i = 0; i <= n; ++i) {
+	 k1 = h2 * (*f)(xi, yi);
+	 yi += h * (*f)(xi + h2, yi + k1);
+	 xi += h;
+	 }
+
+	 return yi;*/
+
+	double yf;
+	     yf = yi + f(xi,yi)*(xf-yi);
+	     yf = yi + (f(xi,yi)+f(xf,yf))*0.5*(xf-xi);
+	   return yf;
+}
 
 //metodo Runga - Kutta 2a ordem
 double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
@@ -110,19 +123,77 @@ double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
 
 void comp_central() {
 	double S1, S2, S3, Erro, Qc;
-	double h = 0.1;
+	double h = 0.5;
+	cout << "\tMetodo de Euler\t\n";
 	do {
 		S1 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
 		S2 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
 		S3 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
 		cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
-		Qc = (S2 - S1) / (S3 - S2);
+		Qc = (double) (S2 - S1) / (S3 - S2);
 		cout << "h:" << h;
 		cout << "Qc: " << Qc << endl;
 		h = h / 2;
 	} while ((int) round(Qc) != 2);
 
+	cout << "Qc: " << Qc;
 	Erro = S2 - S1;
-	cout << "Erro" << Erro;
+	cout << "\tErro: " << Erro;
+	cout << "\tS: " << S1;
+
+	h = 0.5;
+	cout << "\nMetodo de Euler Modificado\t\n";
+	do {
+		S1 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
+		S2 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
+		S3 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
+		cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+		Qc = (double) (S2 - S1) / (S3 - S2);
+		cout << "h:" << h;
+		cout << "Qc: " << Qc << endl;
+		h = h / 2;
+	} while ((int) round(Qc) != 2);
+
+	cout << "Qc: " << Qc;
+	Erro = S2 - S1;
+	cout << "\tErro: " << Erro;
+	cout << "\tS: " << S1;
+
+	/*	cout << "\n\tMetodo de Runga Kutta 2 Ordem\t\n";
+	 h=1;
+	 do {
+	 S1 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
+	 S2 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
+	 S3 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
+	 cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+	 Qc = (double) (S2 - S1) / (S3 - S2);
+	 cout << "h:" << h;
+	 cout << "Qc: " << Qc << endl;
+	 h = h / 2;
+	 } while ((int) round(Qc) != 4);
+
+	 cout << "Qc: " << Qc;
+	 Erro = (S2 - S1) / 3;
+	 cout << "\tErro: " << Erro;
+	 cout << "\tS: " << S1;
+	 */
+	/*	cout << "\n\tMetodo de Runga Kutta 4 Ordem\t\n";
+	 h = 1;
+	 do {
+	 S1 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
+	 S2 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
+	 S3 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
+	 cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+	 Qc = (double) (S2 - S1) / (S3 - S2);
+	 cout << "h:" << h;
+	 cout << "Qc: " << Qc << endl;
+	 h = h / 2;
+	 } while ((int) round(Qc) != 16);
+
+	 cout << "Qc: " << Qc;
+	 Erro = (S2 - S1) / 15;
+	 cout << "\tErro: " << Erro;
+	 cout << "\tS: " << S1;
+	 */
 }
 
