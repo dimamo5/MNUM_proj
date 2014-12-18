@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cmath>
 #include <cstdlib>
 #include "constantes.h"
@@ -5,12 +6,9 @@
 using namespace std;
 
 double Dose(unsigned int t);
-double metodoEuler(double(*f)(double x, double y), double xi, double xf, double
-	y, double h);
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
-	double y, double h);
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
-	double y, double h);
+double metodoEuler(double(*f)(double x, double y), double xi, double xf, double	y, double h);
+double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h);
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h);
 
 double f_central(double t, double cp);
 
@@ -20,8 +18,10 @@ int main() {
 
 	double h = 0.1;
 
-	cout << "metodoEuler: " << metodoEuler(f_central, 0, 30 * 24 * 60, Cp0, h) <<
-		endl;
+	cout << "metodoEuler: " << metodoEuler(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_central, 0, 30 * 24 * 60, Cp0, h)<< endl;
+	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+
 	system("Pause");
 }
 
@@ -32,15 +32,14 @@ double f_central(double t, double cp){
 
 
 /*
-{ 100/60 ,  0 << t << 60
+	 { 100/60 ,  0 << t << 60
 D(t) {
-{ 400/((rand % 3 + 4)*60) ,  60 < t << 360  -> 6h -> 360 minutos : tempo
-maximo possivel
-t = minutos
+	 { 400/((rand % 3 + 4)*60) ,  60 < t << 360  -> 6h -> 360 minutos : tempo maximo possivel
+	 t = minutos
 */
 double Dose(unsigned int t) {
 
-	t = t % (60 * 24);
+	t = t % (60 * 24); //adaptacao para verificacao diaria
 
 	if (t >= 0 && t <= 60) {   //1 ramo da funcao dt
 
@@ -49,8 +48,7 @@ double Dose(unsigned int t) {
 
 	else if (t > 60 && t <= 360) { //2 ramo da funcao dt
 
-		return (double)400 / ((rand() % 3 + 4) * 60);   //determinacao de 
-		uma hora aleatoria entre[4, 6]
+		return (double)400 / ((rand() % 3 + 4) * 60);   //determinacao de 	uma hora aleatoria entre[4, 6]
 	}
 	else
 		return 0;
