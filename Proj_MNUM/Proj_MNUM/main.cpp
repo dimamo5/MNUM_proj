@@ -10,18 +10,18 @@ double metodoEuler(double(*f)(double x, double y), double xi, double xf, double	
 double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h);
 double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h);
 
-double f_central(double t, double cp);
-
+double f_comp_central(double t, double cp);
+double f_bicomp_central(double t, double cp);
 
 int main() {
 	srand(1); //sempre que o programa executa gera os mesmos valores
 
 	double h = 0.1;
 
-	cout << "metodoEuler: " << metodoEuler(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_central, 0, 30 * 24 * 60, Cp0, h)<< endl;
-	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	//coco
+	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+
 	system("Pause");
 }
 
@@ -55,8 +55,7 @@ double Dose(unsigned int t) {
 }
 
 //metodo de euler
-double metodoEuler(double(*f)(double x, double y), double xi, double xf, double
-	y, double h)
+double metodoEuler(double(*f)(double x, double y), double xi, double xf, double	y, double h)
 {
 	unsigned n = (xf - xi) / h;
 
@@ -68,9 +67,17 @@ double metodoEuler(double(*f)(double x, double y), double xi, double xf, double
 	return y;
 }
 
+/*
+double metodoEuler_melhorado(double(*f)(double x, double y), double xi, double
+xf, double y, double h)
+{
+
+return f(xi, y);
+}*/
+
+
 //metodo Runga - Kutta 2a ordem
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
-	double y, double h)
+double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h)
 {
 	unsigned n = (xf - xi) / h;
 
@@ -83,8 +90,7 @@ double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
 }
 
 //metodo Runga - Kutta 4a ordem
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
-	double y, double h)
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h)
 {
 	unsigned n = (xf - xi) / h;
 	double deltaY1, deltaY2, deltaY3, deltaY4;
@@ -101,13 +107,3 @@ double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
 	}
 	return y;
 }
-
-
-
-/*
-double metodoEuler_melhorado(double(*f)(double x, double y), double xi, double
-xf, double y, double h)
-{
-
-return f(xi, y);
-}*/
