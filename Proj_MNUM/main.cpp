@@ -244,7 +244,12 @@ double metodoCorda(double f(double x), double x, double y){
 		xn = x;
 		yn = y;
 
-		w = (x*f(y) - y*f(x)) / (f(y) - f(x));		if (f(xn)*f(w) < 0){			y = w;		}		else x = w;
+		w = (x*f(y) - y*f(x)) / (f(y) - f(x));
+
+		if (f(xn)*f(w) < 0){
+			y = w;
+		}
+		else x = w;
 
 	} while (abs(x-y) > epsilon);
 
