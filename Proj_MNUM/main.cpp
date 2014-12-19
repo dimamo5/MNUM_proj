@@ -29,7 +29,7 @@ int main() {
 //	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 	//comp_central();
 
-	cout << metodoBisseccao(funcao_ka, 0, 0.5);
+	cout << metodoBisseccao(funcao_ka, 0.1,1);
 
 	system("Pause");
 }
@@ -209,7 +209,6 @@ double funcao_ka_diff(double ka) {
 }
 
 double metodoBisseccao(double f(double), double a, double b) {
-	if (f(a) * f(b) < 0) {
 		while (abs(f(a) - f(b)) < epsilon) {
 			double m = (a + b) / 2;
 			if (f(a) * f(m) < 0) {
@@ -218,7 +217,6 @@ double metodoBisseccao(double f(double), double a, double b) {
 				a = m;
 			}
 		}
+		return a;
 	}
-	return a;
-}
 
