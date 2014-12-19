@@ -85,9 +85,9 @@ double metodoEuler_melhorado(double (*f)(double x, double y), double xi,
 	 return yi;*/
 
 	double yf;
-	     yf = yi + f(xi,yi)*(xf-yi);
-	     yf = yi + (f(xi,yi)+f(xf,yf))*0.5*(xf-xi);
-	   return yf;
+	yf = yi + f(xi, yi) * (xf - yi);
+	yf = yi + (f(xi, yi) + f(xf, yf)) * 0.5 * (xf - xi);
+	return yf;
 }
 
 //metodo Runga - Kutta 2a ordem
@@ -195,5 +195,11 @@ void comp_central() {
 	 cout << "\tErro: " << Erro;
 	 cout << "\tS: " << S1;
 	 */
+}
+double funcao_ka(double ka) {
+	return ka * exp(-ka * tmax) - Ke * exp(-Ke * tmax);
+}
+
+double metodoBisseccao(double f(double), double a, double b,) {
 }
 
