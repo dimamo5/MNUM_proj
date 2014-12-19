@@ -6,12 +6,14 @@
 using namespace std;
 
 double Dose(unsigned int t);
-double metodoEuler(double (*f)(double x, double y), double xi, double xf,double y, double h);
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h);
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h);
-double sistemaEqDiferenciais1aOrd(double f(double x), double f2(double y), double x, double xf, double h);
-double metodoCorda(double f(double x), double x, double y);
-double metodoNewton(double f(double x), double diff(double x), double x, double y);
+double metodoEuler(double (*f)(double x, double y), double xi, double xf,
+		double y, double h);
+double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
+		double y, double h);
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
+		double y, double h);
+double metodoBisseccao(double f(double), double a, double b);
+double funcao_ka(double ka);
 
 void comp_central();
 double f_comp_central(double t, double cp);
@@ -25,7 +27,9 @@ int main() {
 //	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 //	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 //	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	comp_central();
+	//comp_central();
+
+	cout << metodoBisseccao(funcao_ka, 0, 0.5);
 
 	system("Pause");
 }
@@ -83,8 +87,8 @@ double metodoEuler_melhorado(double (*f)(double x, double y), double xi,double x
 	 return yi;*/
 
 	double yf;
-	     yf = yi + f(xi,yi)*(xf-yi);
-	     yf = yi + (f(xi,yi)+f(xf,yf))*0.5*(xf-xi);
+	yf = yi + f(xi, yi) * (xf - yi);
+	yf = yi + (f(xi, yi) + f(xf, yf)) * 0.5 * (xf - xi);
 	   return yf;
 }
 
@@ -254,5 +258,26 @@ void comp_central() {
 	 cout << "\tErro: " << Erro;
 	 cout << "\tS: " << S1;
 	 */
+}
+double funcao_ka(double ka) {
+	return (ka * exp(-ka * tmax)) - (Ket * exp(-Ket * tmax));
+}
+
+double funcao_ka_diff(double ka) {
+	return exp(-ka * tmax) - ka * tmax * exp(-ka * tmax);
+}
+
+double metodoBisseccao(double f(double), double a, double b) {
+	if (f(a) * f(b) < 0) {
+		while (abs(f(a) - f(b)) < epsilon) {
+			double m = (a + b) / 2;
+			if (f(a) * f(m) < 0) {
+				b = m;
+			} else {
+				a = m;
+			}
+		}
+	}
+	return a;
 }
 
