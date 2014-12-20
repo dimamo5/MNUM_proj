@@ -37,9 +37,13 @@ double f_comp_central(double t, double cp) {
 	return (Dose(t) - Ke * cp) / Vap;
 }
 
-double f_mi(double t, double mi, double ka){
+double f_mi(double t, double mi,double mp, double ka){
 
 	return (Dose(t) - ka*mi);
 }
 
+double f_mp(double t, double mi, double mp, double ka){
+
+	return  (ka*mi - Ket*mp);
+}
 
