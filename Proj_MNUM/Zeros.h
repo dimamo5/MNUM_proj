@@ -1,4 +1,5 @@
 #ifndef _ZEROS
+#define _ZEROS
 
 double metodoBisseccao(double f(double), double a, double b);
 double metodoCorda(double f(double x), double x, double y);

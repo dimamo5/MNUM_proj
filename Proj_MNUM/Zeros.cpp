@@ -1,7 +1,27 @@
 #include "constantes.h"
 #include <cmath>
 
-double metodoCorda(double f(double x), double x, double y){
+
+double metodoCorda(double f(double x), double x1, double x2){
+
+	double xn, yn1;
+
+	do {
+		xn = (x1*f(x2) - x2*f(x1)) / (f(x2) - f(x1));
+
+		if (f(x1)*f(xn) > 0){
+			x1 = xn;
+		}
+		else x2 = xn;
+
+
+	} //while (h--);
+	while (abs(x1-x2)> epsilon);
+
+	return x1;
+}
+
+/*double metodoCorda(double f(double x), double x, double y){
 
 	double w, xn, yn;
 
@@ -21,7 +41,7 @@ double metodoCorda(double f(double x), double x, double y){
 	} while (abs(x - y) > epsilon);
 
 	return x;
-}
+}*/
 
 double metodoNewton(double f(double x), double diff(double x), double x){
 
@@ -34,7 +54,8 @@ double metodoNewton(double f(double x), double diff(double x), double x){
 
 		x += f(x) / diff(x);
 
-	} while (abs(xn - x > epsilon));
+	} while (abs(xn - x)> epsilon);
+	return x;
 }
 
 double metodoBisseccao(double f(double), double a, double b) {

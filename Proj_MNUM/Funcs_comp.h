@@ -1,5 +1,5 @@
 #ifndef _FUNCS
-
+#define _FUNCS
 /*
      { 100/60 ,  0 << t << 60
 D(t) {
@@ -11,6 +11,7 @@ double Dose(unsigned int t);
 double funcao_ka(double ka);
 void comp_central();
 double f_comp_central(double t, double cp);
-double f_mi(double t, double mi, double ka);
+double f_mi(double t, double mi, double mp, double ka);
+double f_mp(double t, double mi, double mp, double ka);
 
 #endif
