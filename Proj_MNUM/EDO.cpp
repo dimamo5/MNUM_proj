@@ -97,6 +97,7 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 			deltay4;
 
 	for (unsigned i = 0; i < n; i++) {
+
 		deltay1 = h * f(t, mi, mp, ka);
 		deltak1 = h * f2(t, mi, mp, ka);
 
