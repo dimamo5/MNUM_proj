@@ -6,7 +6,7 @@
 using namespace std;
 
 double metodoCorda(double f(double), double x1, double x2) {
-	double h = 0, x_temp;
+	double h = 0, x_temp = 0;
 
 	while (h < 20) {
 		double w = (x1 * f(x2) - x2 * f(x1) / (f(x2) - f(x1)));

@@ -42,11 +42,12 @@ int main() {
 //	cout << "tempo: " << elapsed_secs << endl;
 //	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
 	comp_bi();
+	
 //	cout << Ke << metodoNewton(funcao_ka, funcao_ka_diff, 0.001) << endl;
 //	metodoEuler(f_comp_central,0,30*24*60,0,60);
 //	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, 60);
 	cout << "end";
-//	system("Pause");
+system("Pause");
 }
 
 void comp_central() {
@@ -118,7 +119,7 @@ void comp_central() {
 void comp_bi() {
 	double ka = 0.04600627;
 
-	double h = 60;
+	double h = 1;
 	clock_t b = clock();
 	double h1_y =
 			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h).first;
