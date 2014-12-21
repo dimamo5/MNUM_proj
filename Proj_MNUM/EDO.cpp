@@ -119,7 +119,6 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 
 		sol.first = mi;
 		sol.second = mp;
-//		cout<<i<<endl;
 	}
 	return sol;
 }
@@ -140,10 +139,10 @@ pair<double, double> sistemaEqDiferenciais1aOrd_Euler(
 		t += h;
 		mi += h * f(t, mi, mp);
 		mp += h * f2(t, mi, mp);
+
 		sol.first = mi;
 		sol.second = mp;
-		cout << "\ncoco1:" << (ka) << endl;
-		cout << "\ncoco2:" << (mi) << endl;
+
 		file_mi << setprecision(10) << fixed << mi << endl;
 		file_mp << setprecision(10) << fixed << mp << endl;
 	}

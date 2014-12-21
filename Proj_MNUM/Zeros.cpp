@@ -33,7 +33,6 @@ double metodoNewton(double f(double ka), double diff(double ka), double x) {
 
 	do {
 		xn = x;
-		cout << x << endl;
 		if (diff(x) == 0.0)
 			return -1;
 
