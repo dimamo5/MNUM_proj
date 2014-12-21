@@ -6,14 +6,15 @@
 using namespace std;
 
 double Dose(unsigned int t);
-double metodoEuler(double (*f)(double x, double y), double xi, double xf,
-		double y, double h);
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
-		double y, double h);
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
-		double y, double h);
+double metodoEuler(double (*f)(double x, double y), double xi, double xf,double y, double h);
+double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h);
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h);
 double metodoBisseccao(double f(double), double a, double b);
 double funcao_ka(double ka);
+double funcao_ka_diff(double ka);
+double metodo_picardPeano(double f_diff(double), double guess);
+double funcao_ka_g(double ka);
+
 
 void comp_central();
 double f_comp_central(double t, double cp);
@@ -29,8 +30,9 @@ int main() {
 //	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 	//comp_central();
 
-	cout << metodoBisseccao(funcao_ka, 0, 0.5);
-
+	//cout << metodoBisseccao(funcao_ka, 0, 0.5);
+	//cout << metodo_picardPeano (funcao_ka_g, 0.5) << endl;
+	cout << "cenas: " << metodo_picardPeano(funcao_ka_g,0.5) << endl;
 	system("Pause");
 }
 
@@ -107,8 +109,7 @@ double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
 }
 
 //metodo Runga - Kutta 4a ordem
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
-		double y, double h) {
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h) {
 	unsigned n = (xf - xi) / h;
 	double deltaY1, deltaY2, deltaY3, deltaY4;
 
@@ -124,7 +125,6 @@ double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
 	}
 	return y;
 }
-
 void comp_central() {
 	double S1, S2, S3, Erro, Qc;
 	double h = 0.5;
@@ -203,11 +203,13 @@ void comp_central() {
 double funcao_ka(double ka) {
 	return (ka * exp(-ka * tmax)) - (Ket * exp(-Ket * tmax));
 }
-
-double funcao_ka_diff(double ka) {
+double funcao_ka_g(double ka)
+{
+	return Ket*exp(tmax*(ka-Ket));
+}
+double funcao_ka_diff(double ka) { 
 	return exp(-ka * tmax) - ka * tmax * exp(-ka * tmax);
 }
-
 double metodoBisseccao(double f(double), double a, double b) {
 	if (f(a) * f(b) < 0) {
 		while (abs(f(a) - f(b)) < epsilon) {
@@ -221,4 +223,27 @@ double metodoBisseccao(double f(double), double a, double b) {
 	}
 	return a;
 }
+
+
+//metodo de Picard Peano
+
+
+double metodo_picardPeano(double f_diff(double x ),double guess)
+{
+	double xn_;
+	double anterior;
+	do 
+	{
+		xn_ = funcao_ka_g(guess);
+		anterior = guess;
+		guess = xn_;
+
+	} while (abs(xn_ - anterior) > epsilon);
+	return xn_;
+}
+// ver para o outro ponto 
+
+
+
+
 
