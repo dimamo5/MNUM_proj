@@ -1,249 +1,156 @@
 #include <iostream>
 #include <cmath>
-#include <cstdlib>
+#include <iomanip>
+#include <ctime>
+#include <utility>
+#include "EDO.h"
+#include "Zeros.h"
+#include "Funcs_comp.h"
 #include "constantes.h"
 
 using namespace std;
 
-double Dose(unsigned int t);
-double metodoEuler(double (*f)(double x, double y), double xi, double xf,double y, double h);
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,double y, double h);
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h);
-double metodoBisseccao(double f(double), double a, double b);
-double funcao_ka(double ka);
-double funcao_ka_diff(double ka);
-double metodo_picardPeano(double f_diff(double), double guess);
-double funcao_ka_g(double ka);
-
-
-void comp_central();
-double f_comp_central(double t, double cp);
-double f_bicomp_central(double t, double cp);
+//double f_bicomp_central(double t, double cp);
+void comp_bi();
 
 int main() {
 	srand(1); //sempre que o programa executa gera os mesmos valores
 
-//	double h = 0.1;
-//
-//	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-//	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-//	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	//comp_central();
-
-	//cout << metodoBisseccao(funcao_ka, 0, 0.5);
-	//cout << metodo_picardPeano (funcao_ka_g, 0.5) << endl;
-	cout << "cenas: " << metodo_picardPeano(funcao_ka_g,0.5) << endl;
-	system("Pause");
+	//	double h = 0.1;
+	//
+	//	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+	//	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+	//	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
+//	comp_central();
+//	cout << funcao_ka(0)<<endl;
+//	cout << funcao_ka(5)<<endl;
+//	clock_t b = clock();
+//	cout << setprecision(20) << metodoBisseccao(funcao_ka, 0.02, 0.06) << endl;
+//	clock_t e = clock();
+//	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+//	cout << "tempo: " << elapsed_secs << endl;
+//	 e = clock();
+//	cout << setprecision(20) << metodoCorda(funcao_ka, 0, 0.009) << endl;
+//	 e = clock();
+//	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+//	cout << "tempo: " << elapsed_secs << endl;
+//	 e = clock();
+//	cout << setprecision(20) << metodoNewton(funcao_ka, funcao_ka_diff, 0.07);
+//			<< endl;
+//	 e = clock();
+//	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+//	cout << "tempo: " << elapsed_secs << endl;
+//	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
+	comp_bi();
+	
+//	cout << Ke << metodoNewton(funcao_ka, funcao_ka_diff, 0.001) << endl;
+//	metodoEuler(f_comp_central,0,30*24*60,0,60);
+//	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, 60);
+	cout << "end";
+system("Pause");
 }
 
-double f_comp_central(double t, double cp) {
-
-	return (Dose(t) - Ke * cp) / Vap;
-}
-
-/*
- { 100/60 ,  0 << t << 60
- D(t) {
- { 400/((rand % 3 + 4)*60) ,  60 < t << 360  -> 6h -> 360 minutos : tempo maximo possivel
- t = minutos
- */
-
-double Dose(unsigned int t) {
-	t = t % (60 * 24); //adaptacao para verificacao diaria
-
-	if (t >= 0 && t <= 60) {   //1 ramo da funcao dt
-
-		return (double) 100 / 60;
-	}
-
-	else if (t > 60 && t <= 360) { //2 ramo da funcao dt
-
-		return (double) 400 / (horas_geradas * 60); //determinacao de 	uma hora aleatoria entre[4, 6]
-	} else
-		return 0;
-}
-
-//metodo de euler
-double metodoEuler(double (*f)(double x, double y), double xi, double xf,
-		double y, double h) {
-	unsigned n = (xf - xi) / h;
-
-	for (size_t i = 0; i <= n; ++i) {
-		y += h * f(xi, y);
-		xi += h;
-	}
-	return y;
-}
-
-double metodoEuler_melhorado(double (*f)(double x, double y), double xi,
-		double xf, double yi, double h) {
-
-	/*unsigned n = (xf - xi) / h;
-	 double k1;
-	 double h2 = 0.5 * h;
-
-	 for (size_t i = 0; i <= n; ++i) {
-	 k1 = h2 * (*f)(xi, yi);
-	 yi += h * (*f)(xi + h2, yi + k1);
-	 xi += h;
-	 }
-
-	 return yi;*/
-
-	double yf;
-	yf = yi + f(xi, yi) * (xf - yi);
-	yf = yi + (f(xi, yi) + f(xf, yf)) * 0.5 * (xf - xi);
-	return yf;
-}
-
-//metodo Runga - Kutta 2a ordem
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
-		double y, double h) {
-	unsigned n = (xf - xi) / h;
-
-	for (size_t i = 0; i <= n; ++i) {
-		y += h * f(xi + h / 2, y + h / 2 * f(xi, y));
-		xi += h;
-	}
-	return y;
-}
-
-//metodo Runga - Kutta 4a ordem
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,double y, double h) {
-	unsigned n = (xf - xi) / h;
-	double deltaY1, deltaY2, deltaY3, deltaY4;
-
-	for (size_t i = 0; i <= n; ++i) {
-		deltaY1 = h * f(xi, y);
-		deltaY2 = h * f(xi + h / 2, y + deltaY1 / 2);
-		deltaY3 = h * f(xi + h / 2, y + deltaY2 / 2);
-		deltaY4 = h * f(xi + h, y + deltaY3);
-		xi += h;
-		y += (1.0 / 6) * deltaY1 + (1.0 / 3) * deltaY2 + (1.0 / 3) *
-
-		deltaY3 + (1.0 / 6) * deltaY4;
-	}
-	return y;
-}
 void comp_central() {
 	double S1, S2, S3, Erro, Qc;
-	double h = 0.5;
-	cout << "\tMetodo de Euler\t\n";
-	do {
-		S1 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
-		S2 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
-		S3 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
-		cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
-		Qc = (double) (S2 - S1) / (S3 - S2);
-		cout << "h:" << h;
-		cout << "Qc: " << Qc << endl;
-		h = h / 2;
-	} while ((int) round(Qc) != 2);
+	double h = 1;
+	cout << "\nMetodo de Euler\n";
+	clock_t b = clock();
+	S1 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	clock_t e = clock();
+	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 
-	cout << "Qc: " << Qc;
-	Erro = S2 - S1;
-	cout << "\tErro: " << Erro;
-	cout << "\tS: " << S1;
+	cout << "tempo: " << elapsed_secs << endl;
+	S2 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	S3 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
+	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+	Qc = (double) (S2 - S1) / (S3 - S2);
+	cout << "h:" << h;
+	cout << "\tQc: " << Qc;
+	Erro = abs(S2 - S1);
+	cout << "\tErro: " << Erro << endl;
 
-	h = 0.5;
-	cout << "\nMetodo de Euler Modificado\t\n";
-	do {
-		S1 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
-		S2 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
-		S3 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
-		cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
-		Qc = (double) (S2 - S1) / (S3 - S2);
-		cout << "h:" << h;
-		cout << "Qc: " << Qc << endl;
-		h = h / 2;
-	} while ((int) round(Qc) != 2);
-
-	cout << "Qc: " << Qc;
-	Erro = S2 - S1;
-	cout << "\tErro: " << Erro;
-	cout << "\tS: " << S1;
-
-	/*	cout << "\n\tMetodo de Runga Kutta 2 Ordem\t\n";
-	 h=1;
-	 do {
-	 S1 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
-	 S2 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
-	 S3 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
+	/*	cout << "\nMetodo de Euler Modificado\n";
+	 S1 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	 S2 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	 S3 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
 	 cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
 	 Qc = (double) (S2 - S1) / (S3 - S2);
 	 cout << "h:" << h;
-	 cout << "Qc: " << Qc << endl;
-	 h = h / 2;
-	 } while ((int) round(Qc) != 4);
+	 cout << "\tQc: " << Qc;
+	 Erro = abs(S2 - S1);
+	 cout << "\tErro: " << Erro<<endl;*/
 
-	 cout << "Qc: " << Qc;
-	 Erro = (S2 - S1) / 3;
-	 cout << "\tErro: " << Erro;
-	 cout << "\tS: " << S1;
-	 */
-	/*	cout << "\n\tMetodo de Runga Kutta 4 Ordem\t\n";
-	 h = 1;
-	 do {
-	 S1 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h);
-	 S2 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 2);
-	 S3 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h / 4);
-	 cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
-	 Qc = (double) (S2 - S1) / (S3 - S2);
-	 cout << "h:" << h;
-	 cout << "Qc: " << Qc << endl;
-	 h = h / 2;
-	 } while ((int) round(Qc) != 16);
+	cout << "\nMetodo de Runga Kutta 2 Ordem\n";
+	b = clock();
+	S1 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	e = clock();
+	elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 
-	 cout << "Qc: " << Qc;
-	 Erro = (S2 - S1) / 15;
-	 cout << "\tErro: " << Erro;
-	 cout << "\tS: " << S1;
-	 */
-}
-double funcao_ka(double ka) {
-	return (ka * exp(-ka * tmax)) - (Ket * exp(-Ket * tmax));
-}
-double funcao_ka_g(double ka)
-{
-	return Ket*exp(tmax*(ka-Ket));
-}
-double funcao_ka_diff(double ka) { 
-	return exp(-ka * tmax) - ka * tmax * exp(-ka * tmax);
-}
-double metodoBisseccao(double f(double), double a, double b) {
-	if (f(a) * f(b) < 0) {
-		while (abs(f(a) - f(b)) < epsilon) {
-			double m = (a + b) / 2;
-			if (f(a) * f(m) < 0) {
-				b = m;
-			} else {
-				a = m;
-			}
-		}
-	}
-	return a;
+	cout << "tempo: " << elapsed_secs << endl;
+
+	S2 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	S3 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
+	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+	Qc = (double) (S2 - S1) / (S3 - S2);
+	cout << "h:" << h;
+	cout << "\tQc: " << Qc;
+	Erro = abs(S2 - S1);
+	cout << "\tErro: " << Erro << endl;
+
+	cout << "\nMetodo de Runga Kutta 4 Ordem\n";
+
+	b = clock();
+	S1 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	e = clock();
+	elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+
+	cout << "tempo: " << elapsed_secs << endl;
+	S2 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	S3 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
+	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
+	Qc = (double) (S2 - S1) / (S3 - S2);
+	cout << "h:" << h;
+	cout << "\tQc: " << Qc;
+	Erro = abs(S2 - S1);
+	cout << "\tErro: " << Erro << endl;
+
 }
 
+void comp_bi() {
+	double ka = 0.04600627;
 
-//metodo de Picard Peano
+	double h = 1;
+	clock_t b = clock();
+	double h1_y =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h).first;
+	double h2_y =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 2).first;
+	double h3_y =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 4).first;
+	double h1_z =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h).second;
+	double h2_z =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 2).second;
+	double h3_z =
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 4).second;
 
+	double qc_y = (h2_y - h1_y) / (h3_y - h2_y);
+	double qc_z = (h2_z - h1_z) / (h3_z - h2_z);
+	double e_y = (h3_y - h2_y) / 15;
+	double e_z = (h3_y - h2_y) / 15;
 
-double metodo_picardPeano(double f_diff(double x ),double guess)
-{
-	double xn_;
-	double anterior;
-	do 
-	{
-		xn_ = funcao_ka_g(guess);
-		anterior = guess;
-		guess = xn_;
+	clock_t e = clock();
+	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+	cout << "\ntempo: " << elapsed_secs << endl;
 
-	} while (abs(xn_ - anterior) > epsilon);
-	return xn_;
+	cout << "S mi = " << setprecision(10) << h1_y << endl;
+	cout << "S' mi = " << setprecision(10) << h2_y << endl;
+	cout << "S''mi = " << setprecision(10) << h3_y << endl;
+	cout << "S mp = " << setprecision(30) << h1_z << endl;
+	cout << "S' mp = " << setprecision(30) << h2_z << endl;
+	cout << "S''mp = " << setprecision(30) << h3_z << endl;
+	cout << "Qc mi =" << setprecision(10) << qc_y << endl;
+	cout << "Qc mp =" << setprecision(10) << qc_z << endl;
+	cout << "E'' mi =" << setprecision(10) << abs(e_y) << endl;
+	cout << "E'' mp =" << setprecision(10) << abs(e_z) << endl;
 }
-// ver para o outro ponto 
-
-
-
-
-
