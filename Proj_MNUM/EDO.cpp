@@ -89,7 +89,7 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 	file_mi.open("graphico_mi.txt");
 	file_mp.open("graphico_mp.txt");
 
-	unsigned n = abs(t - 24 * 60) / h;
+	unsigned n = abs(t - 30*24 * 60) / h;
 	pair<double, double> sol;
 
 	double deltak1, deltak2, deltak3, deltak4, deltay1, deltay2, deltay3,
