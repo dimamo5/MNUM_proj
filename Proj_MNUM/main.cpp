@@ -43,9 +43,9 @@ int main() {
 //	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
 //	comp_bi();
 //	cout << Ke << metodoNewton(funcao_ka, funcao_ka_diff, 0.001) << endl;
-//	metodoEuler(f_comp_central,0,30*24*60,0,60);
-	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, 0.0019, 60);
-//	sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, 0.04600627, 1);
+//	metodoEuler(f_comp_central,0,30*24*60,0,1);
+	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, 1);
+//	sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, 60);
 	cout << "end";
 	system("Pause");
 }
@@ -117,22 +117,21 @@ void comp_central() {
 }
 
 void comp_bi() {
-	double ka = 0.04600627;
 
 	double h = 1;
 	clock_t b = clock();
 	double h1_y =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h).first;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h).first;
 	double h2_y =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 2).first;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h / 2).first;
 	double h3_y =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 4).first;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h / 4).first;
 	double h1_z =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h).second;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h).second;
 	double h2_z =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 2).second;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h / 2).second;
 	double h3_z =
-			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, h / 4).second;
+			sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h / 4).second;
 
 	double qc_y = (h2_y - h1_y) / (h3_y - h2_y);
 	double qc_z = (h2_z - h1_z) / (h3_z - h2_z);

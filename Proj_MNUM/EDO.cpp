@@ -83,14 +83,13 @@ double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
 }
 
 pair<double, double> sistemaEqDiferenciais1aOrd_RK(
-		double f(double t, double mi, double mp, double ka),
-		double f2(double t, double mi, double mp, double ka), double t,
-		double ka, double mi, double mp, double h) {
+		double f(double, double, double), double f2(double, double, double),
+		double t, double mi, double mp, double h) {
 	ofstream file_mi, file_mp;
 	file_mi.open("graphico_mi.txt");
 	file_mp.open("graphico_mp.txt");
 
-	unsigned n = abs(t - 30 * 24 * 60) / h;
+	unsigned n = abs(t - 24 * 60) / h;
 	pair<double, double> sol;
 
 	double deltak1, deltak2, deltak3, deltak4, deltay1, deltay2, deltay3,
@@ -98,17 +97,17 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 
 	for (unsigned i = 0; i < n; i++) {
 
-		deltay1 = h * f(t, mi, mp, ka);
-		deltak1 = h * f2(t, mi, mp, ka);
+		deltay1 = h * f(t, mi, mp);
+		deltak1 = h * f2(t, mi, mp);
 
-		deltay2 = h * f(t + h / 2, mi + deltay1 / 2, mp + deltak1 / 2, ka);
-		deltak2 = h * f2(t + h / 2, mi + deltay1 / 2, mp + deltak1 / 2, ka);
+		deltay2 = h * f(t + h / 2, mi + deltay1 / 2, mp + deltak1 / 2);
+		deltak2 = h * f2(t + h / 2, mi + deltay1 / 2, mp + deltak1 / 2);
 
-		deltay3 = h * f(t + h / 2, mi + deltay2 / 2, mp + deltak2 / 2, ka);
-		deltak3 = h * f2(t + h / 2, mi + deltay2 / 2, mp + deltak2 / 2, ka);
+		deltay3 = h * f(t + h / 2, mi + deltay2 / 2, mp + deltak2 / 2);
+		deltak3 = h * f2(t + h / 2, mi + deltay2 / 2, mp + deltak2 / 2);
 
-		deltay4 = h * f(t + h, mi + deltay3, mp + deltak3, ka);
-		deltak4 = h * f2(t + h, mi + deltay3, mp + deltak3, ka);
+		deltay4 = h * f(t + h, mi + deltay3, mp + deltak3);
+		deltak4 = h * f2(t + h, mi + deltay3, mp + deltak3);
 
 		t += h;
 		mi += (1.0 / 6) * deltay1 + (1.0 / 3) * deltay2 + (1.0 / 3) * deltay3
@@ -117,6 +116,7 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 				+ (1.0 / 6) * deltak4;
 		file_mi << setprecision(10) << fixed << mi << endl;
 		file_mp << setprecision(10) << fixed << mp << endl;
+
 		sol.first = mi;
 		sol.second = mp;
 //		cout<<i<<endl;
@@ -125,20 +125,27 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 }
 
 pair<double, double> sistemaEqDiferenciais1aOrd_Euler(
-		double f(double t, double mi, double mp, double ka),
-		double f2(double t, double mi, double mp, double ka), double t,
-		double ka, double mi, double mp, double h) {
+		double f(double, double, double),
+		double f2(double, double, double), double t, double mi,
+		double mp, double h) {
+
+	ofstream file_mi, file_mp;
+	file_mi.open("graphico_mi.txt");
+	file_mp.open("graphico_mp.txt");
 
 	unsigned n = abs(t - 30 * 24 * 60) / h;
 	pair<double, double> sol;
 
 	for (unsigned i = 0; i < n; i++) {
 		t += h;
-		mi += h * f(t, mi, mp, ka);
-		mp += h * f2(t, mi, mp, ka);
-
+		mi += h * f(t, mi, mp);
+		mp += h * f2(t, mi, mp);
 		sol.first = mi;
 		sol.second = mp;
+		cout << "\ncoco1:" << (ka) << endl;
+		cout << "\ncoco2:" << (mi) << endl;
+		file_mi << setprecision(10) << fixed << mi << endl;
+		file_mp << setprecision(10) << fixed << mp << endl;
 	}
 	return sol;
 

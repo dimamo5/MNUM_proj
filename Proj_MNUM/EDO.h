@@ -14,13 +14,11 @@ double metodoEuler_melhorado(double (*f)(double x, double y), double xi,
 		double xf, double yi, double h);
 
 pair<double, double> sistemaEqDiferenciais1aOrd_RK(
-		double f(double t, double mi, double mp, double ka),
-		double f2(double t, double mi, double mp, double ka), double t,
-		double ka, double mi, double mp, double h);
+		double f(double, double, double), double f2(double, double, double),
+		double t, double mi, double mp, double h);
 
 pair<double, double> sistemaEqDiferenciais1aOrd_Euler(
-		double f(double t, double mi, double mp, double ka),
-		double f2(double t, double mi, double mp, double ka), double t,
-		double ka, double mi, double mp, double h);
+		double f(double, double, double), double f2(double, double, double),
+		double t, double mi, double mp, double h);
 
 #endif
