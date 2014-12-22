@@ -20,11 +20,11 @@ double Dose(double t) {
 
 
 double funcao_ka(double ka) {
-	return Ket*exp(tmax*(ka - Ket));
+	return ka*exp(-tmax*ka) - Ket*exp(-Ket*tmax);
 }
 
 double funcao_ka_diff(double ka){
-	return Ket*tmax*exp(tmax*(ka - Ket));
+	return exp(-tmax*ka)*(1-tmax*ka);
 }
 
 

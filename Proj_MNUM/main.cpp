@@ -42,8 +42,10 @@ int main() {
 //	cout << "tempo: " << elapsed_secs << endl;
 //	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
 
-//	comp_bi();
-	cout << metodoNewton(funcao_ka, funcao_ka_diff, 0.05) << endl;
+comp_bi();
+	/*cout << metodoNewton(funcao_ka, funcao_ka_diff, 0.05) << endl;
+	cout << metodoBisseccao(funcao_ka, 0.01, 0.06) << endl;
+	cout << metodoCorda(funcao_ka, 0.03, 0.06) << endl;*/
 //	metodoEuler(f_comp_central,0,30*24*60,0,1);
 //	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, 2);
 //	sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, 1);
