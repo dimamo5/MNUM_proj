@@ -33,10 +33,6 @@ double metodoNewton(double f(double ka), double diff(double ka), double x) {
 
 	do {
 		xn = x;
-<<<<<<< HEAD
-=======
-		
->>>>>>> 07e584e3352428f929d72739c8e3edaa1c01cf04
 		if (diff(x) == 0.0)
 			return -1;
 
