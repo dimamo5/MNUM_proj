@@ -12,16 +12,30 @@ using namespace std;
 
 //double f_bicomp_central(double t, double cp);
 void comp_bi();
+void comp_central();
+void calculo_zeros();
 
 int main() {
 	srand(1); //sempre que o programa executa gera os mesmos valores
+	/**
+	 * ------------------------------
+	 * Descomentar funcao a mostrar
+	 *-------------------------------
+	 */
+	//	comp_central();
+	//	calculo_zeros();
+	//	comp_bi
+
+
+
+
+
 
 	//	double h = 0.1;
 	//
 	//	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 	//	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
 	//	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-//	comp_central();
 //	cout << funcao_ka(0)<<endl;
 //	cout << funcao_ka(5)<<endl;
 //	clock_t b = clock();
@@ -41,16 +55,17 @@ int main() {
 //	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 //	cout << "tempo: " << elapsed_secs << endl;
 //	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
-
-comp_bi();
-	/*cout << metodoNewton(funcao_ka, funcao_ka_diff, 0.05) << endl;
-	cout << metodoBisseccao(funcao_ka, 0.01, 0.06) << endl;
-	cout << metodoCorda(funcao_ka, 0.03, 0.06) << endl;*/
+//	cout << Ke;
+//comp_bi();
+//	cout << metodoNewton(funcao_ka, funcao_ka_diff, 0.001) << endl;
+//	cout << metodoBisseccao(funcao_ka, 0, 0.05) << endl;
+//	cout << metodoCorda(funcao_ka, 0, 0.005) << endl;
 //	metodoEuler(f_comp_central,0,30*24*60,0,1);
 //	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, 2);
 //	sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, 1);
 //	comp_bi();
-	system("Pause");
+//	system("Pause");
+	return 0;
 }
 
 void comp_central() {
@@ -71,7 +86,11 @@ void comp_central() {
 	cout << "\tQc: " << Qc;
 	Erro = abs(S2 - S1);
 	cout << "\tErro: " << Erro << endl;
-
+	/**
+	 * Metodo Não funciona correctamente
+	 *
+	 * Apenas coerente no calculo da primeira Solucao
+	 */
 	/*	cout << "\nMetodo de Euler Modificado\n";
 	 S1 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, h);
 	 S2 = metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
@@ -122,6 +141,13 @@ void comp_central() {
 void comp_bi() {
 
 	double h = 1;
+
+	/**
+	 * METODO RK
+	 */
+
+	cout << "\nMetodo RK\n" << endl;
+
 	clock_t b = clock();
 	double h1_y = sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, h).first;
 	double h2_y =
@@ -153,4 +179,53 @@ void comp_bi() {
 	cout << "Qc mp =" << setprecision(10) << qc_z << endl;
 	cout << "E'' mi =" << setprecision(10) << abs(e_y) << endl;
 	cout << "E'' mp =" << setprecision(10) << abs(e_z) << endl;
+	/**
+	 * METODO EULER
+	 */
+	cout << "\nMetodo Euler\n" << endl;
+
+	b = clock();
+	h1_y = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h).first;
+	h2_y = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h / 2).first;
+	h3_y = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h / 4).first;
+	h1_z = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h).second;
+	h2_z = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h / 2).second;
+	h3_z = sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, h / 4).second;
+
+	qc_y = (h2_y - h1_y) / (h3_y - h2_y);
+	qc_z = (h2_z - h1_z) / (h3_z - h2_z);
+	e_y = (h3_y - h2_y) / 15;
+	e_z = (h3_y - h2_y) / 15;
+
+	e = clock();
+	elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+	cout << "\ntempo: " << elapsed_secs << endl;
+
+	cout << "S mi = " << setprecision(10) << h1_y << endl;
+	cout << "S' mi = " << setprecision(10) << h2_y << endl;
+	cout << "S''mi = " << setprecision(10) << h3_y << endl;
+	cout << "S mp = " << setprecision(30) << h1_z << endl;
+	cout << "S' mp = " << setprecision(30) << h2_z << endl;
+	cout << "S''mp = " << setprecision(30) << h3_z << endl;
+	cout << "Qc mi =" << setprecision(10) << qc_y << endl;
+	cout << "Qc mp =" << setprecision(10) << qc_z << endl;
+	cout << "E'' mi =" << setprecision(10) << abs(e_y) << endl;
+	cout << "E'' mp =" << setprecision(10) << abs(e_z) << endl;
+}
+
+void calculo_zeros() {
+	cout << "\n NEWTON\n";
+	cout << "1º zero: " << metodoNewton(funcao_ka, funcao_ka_diff, 0.001)
+			<< endl;
+	cout << "2º zero: " << metodoNewton(funcao_ka, funcao_ka_diff, 0.05)
+			<< endl;
+
+	cout << "\n BISSECAO\n";
+	cout << "1º zero: " << metodoBisseccao(funcao_ka, 0, 0.05) << endl;
+	cout << "2º zero: " << metodoBisseccao(funcao_ka, 0.03, 0.06) << endl;
+
+	cout << "\n CORDA\n";
+	cout << "1º zero: " << metodoCorda(funcao_ka, 0, 0.005) << endl;
+	cout << "2º zero: " << metodoCorda(funcao_ka, 0.03, 0.06) << endl;
+
 }
