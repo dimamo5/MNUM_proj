@@ -45,7 +45,7 @@ int main() {
 	
 	cout  << metodoNewton(funcao_ka, funcao_ka_diff, 0.005) << endl;
 	cout << metodoBisseccao(funcao_ka, 0.04, 0.05)<<endl;
-	cout << metodoCorda(funcao_ka,0.00001, 0.02)<<endl;
+	//cout << metodoCorda(funcao_ka,0.00001, 0.02)<<endl;
 
 	//	metodoEuler(f_comp_central,0,30*24*60,0,60);
 //	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, ka, 60);
