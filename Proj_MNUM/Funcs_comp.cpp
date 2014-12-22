@@ -20,17 +20,13 @@ double Dose(double t) {
 
 
 double funcao_ka(double ka) {
-	return (ka * exp(-ka * tmax)) - (Ket * exp(-Ket * tmax));
-}
-
-double funcao_ka_diff(double ka) {
-	return exp(-ka * tmax) - ka * tmax * exp(-ka * tmax);
-}
-
-double funcao_ka_g(double ka)
-{
 	return Ket*exp(tmax*(ka - Ket));
 }
+
+double funcao_ka_diff(double ka){
+	return Ket*tmax*exp(tmax*(ka - Ket));
+}
+
 
 double f_comp_central(double t, double cp) {
 

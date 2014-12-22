@@ -33,7 +33,7 @@ double metodoNewton(double f(double ka), double diff(double ka), double x) {
 
 	do {
 		xn = x;
-		cout << x << endl;
+		
 		if (diff(x) == 0.0)
 			return -1;
 
@@ -59,8 +59,7 @@ double metodoBisseccao(double f(double), double a, double b) {
 	return a;
 }
 
-double metodo_picardPeano(double f(double k), double f_diff(double x),
-		double guess) {
+double metodo_picardPeano(double f(double k), double f_diff(double x),	double guess) {
 	double xn_;
 	double anterior;
 	do {

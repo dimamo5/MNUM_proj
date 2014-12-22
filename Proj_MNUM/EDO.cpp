@@ -52,8 +52,7 @@ double metodoEuler_melhorado(double (*f)(double x, double y), double xi,
 }
 
 //metodo Runga - Kutta 2a ordem
-double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
-		double y, double h) {
+double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,	double y, double h) {
 	unsigned n = (xf - xi) / h;
 
 	for (size_t i = 0; i <= n; ++i) {
@@ -64,8 +63,7 @@ double metodoRungaKutta2a(double f(double x, double y), double xi, double xf,
 }
 
 //metodo Runga - Kutta 4a ordem
-double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,
-		double y, double h) {
+double metodoRungaKutta4a(double f(double x, double y), double xi, double xf,	double y, double h) {
 	unsigned n = (xf - xi) / h;
 	double deltaY1, deltaY2, deltaY3, deltaY4;
 
@@ -110,10 +108,8 @@ pair<double, double> sistemaEqDiferenciais1aOrd_RK(
 		deltak4 = h * f2(t + h, mi + deltay3, mp + deltak3, ka);
 
 		t += h;
-		mi += (1.0 / 6) * deltay1 + (1.0 / 3) * deltay2 + (1.0 / 3) * deltay3
-				+ (1.0 / 6) * deltay4;
-		mp += (1.0 / 6) * deltak1 + (1.0 / 3) * deltak2 + (1.0 / 3) * deltak3
-				+ (1.0 / 6) * deltak4;
+		mi += (1.0 / 6) * deltay1 + (1.0 / 3) * deltay2 + (1.0 / 3) * deltay3+ (1.0 / 6) * deltay4;
+		mp += (1.0 / 6) * deltak1 + (1.0 / 3) * deltak2 + (1.0 / 3) * deltak3+ (1.0 / 6) * deltak4;
 		file_mi << setprecision(10) << fixed << mi << endl;
 		file_mp << setprecision(10) << fixed << mp << endl;
 		sol.first = mi;
@@ -140,7 +136,6 @@ pair<double, double> sistemaEqDiferenciais1aOrd_Euler(
 		sol.second = mp;
 	}
 	return sol;
-
 }
 //resolve sistema eq difs
 /*double sistemaEqDiferenciais1aOrd(double f(double t, double mi), double f2(double mi, double mp), double mi, double mf, double h)
