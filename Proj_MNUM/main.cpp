@@ -22,49 +22,10 @@ int main() {
 	 * Descomentar funcao a mostrar
 	 *-------------------------------
 	 */
-	//	comp_central();
+	comp_central();
 	//	calculo_zeros();
 	//	comp_bi
 
-
-
-
-
-
-	//	double h = 0.1;
-	//
-	//	cout << "metodoEuler: " << metodoEuler(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	//	cout << "Metodo Runga kutta 2a: " << metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-	//	cout << "Metodo Runga kutta 4a: " << metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, Cp0, h) << endl;
-//	cout << funcao_ka(0)<<endl;
-//	cout << funcao_ka(5)<<endl;
-//	clock_t b = clock();
-//	cout << setprecision(20) << metodoBisseccao(funcao_ka, 0.02, 0.06) << endl;
-//	clock_t e = clock();
-//	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
-//	cout << "tempo: " << elapsed_secs << endl;
-//	 e = clock();
-//	cout << setprecision(20) << metodoCorda(funcao_ka, 0, 0.009) << endl;
-//	 e = clock();
-//	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
-//	cout << "tempo: " << elapsed_secs << endl;
-//	 e = clock();
-//	cout << setprecision(20) << metodoNewton(funcao_ka, funcao_ka_diff, 0.07);
-//			<< endl;
-//	 e = clock();
-//	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
-//	cout << "tempo: " << elapsed_secs << endl;
-//	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
-//	cout << Ke;
-//comp_bi();
-//	cout << metodoNewton(funcao_ka, funcao_ka_diff, 0.001) << endl;
-//	cout << metodoBisseccao(funcao_ka, 0, 0.05) << endl;
-//	cout << metodoCorda(funcao_ka, 0, 0.005) << endl;
-//	metodoEuler(f_comp_central,0,30*24*60,0,1);
-//	sistemaEqDiferenciais1aOrd_RK(f_mi, f_mp, 0, 0, 0, 2);
-//	sistemaEqDiferenciais1aOrd_Euler(f_mi, f_mp, 0, 0, 0, 1);
-//	comp_bi();
-//	system("Pause");
 	return 0;
 }
 
@@ -74,12 +35,12 @@ void comp_central() {
 	cout << "\nMetodo de Euler\n";
 	clock_t b = clock();
 	S1 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h);
-	clock_t e = clock();
-	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 
-	cout << "tempo: " << elapsed_secs << endl;
 	S2 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
 	S3 = metodoEuler(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
+	clock_t e = clock();
+	double elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
+	cout << "tempo: " << elapsed_secs << endl;
 	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
 	Qc = (double) (S2 - S1) / (S3 - S2);
 	cout << "h:" << h;
@@ -105,13 +66,13 @@ void comp_central() {
 	cout << "\nMetodo de Runga Kutta 2 Ordem\n";
 	b = clock();
 	S1 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	S2 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	S3 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
+
 	e = clock();
 	elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 
 	cout << "tempo: " << elapsed_secs << endl;
-
-	S2 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
-	S3 = metodoRungaKutta2a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
 	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
 	Qc = (double) (S2 - S1) / (S3 - S2);
 	cout << "h:" << h;
@@ -123,12 +84,12 @@ void comp_central() {
 
 	b = clock();
 	S1 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h);
+	S2 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
+	S3 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
 	e = clock();
 	elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 
 	cout << "tempo: " << elapsed_secs << endl;
-	S2 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 2);
-	S3 = metodoRungaKutta4a(f_comp_central, 0, 30 * 24 * 60, 0, h / 4);
 	cout << S1 << "\t" << S2 << "\t" << S3 << "\t";
 	Qc = (double) (S2 - S1) / (S3 - S2);
 	cout << "h:" << h;

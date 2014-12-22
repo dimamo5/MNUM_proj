@@ -10,13 +10,14 @@ double metodoCorda(double f(double), double x1, double x2) {
 
 	while (h < 20) {
 		double w = (x1 * f(x2) - x2 * f(x1) / (f(x2) - f(x1)));
+
 		if (f(x1) * f(w) < 0)
 			x2 = w;
 		else {
 			x1 = w;
 		}
 
-		if (x_temp == x2) {
+		if (x_temp == x2) {		//Numero de iteracoes a quando o numero se esta a repetir ate terminar
 			h++;
 		} else {
 			h = 0;
