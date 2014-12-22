@@ -41,7 +41,7 @@ int main() {
 //	 elapsed_secs = (double) (e - b) / CLOCKS_PER_SEC;
 //	cout << "tempo: " << elapsed_secs << endl;
 //	cout<<metodoEuler_melhorado(f_comp_central, 0, 30 * 24 * 60, 0, 1);
-	// comp_bi();
+	//comp_bi();
 	
 	cout  << metodoNewton(funcao_ka, funcao_ka_diff, 0.005) << endl;
 	cout << metodoBisseccao(funcao_ka, 0.04, 0.05)<<endl;
